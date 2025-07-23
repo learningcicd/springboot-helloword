@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World Spring Boot Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: linear-gradient(135deg, #000000, #1a0033, #2d1b69, #000000);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a0033, #4c1d95, #6b46c1, #2d1b69);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: rgba(30, 20, 60, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 15px rgba(139, 92, 246, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        main {
+            background: rgba(15, 15, 30, 0.8);
+            backdrop-filter: blur(10px);
+            margin: 2rem 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.2);
+            overflow: hidden;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        h2 {
+            color: #e5e7eb;
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #8b5cf6;
+        }
+
+        h3 {
+            color: #d1d5db;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .code-block.java {
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        /* Java syntax highlighting */
+        .java .keyword { color: #569cd6; font-weight: bold; }
+        .java .string { color: #ce9178; }
+        .java .comment { color: #6a9955; font-style: italic; }
+        .java .annotation { color: #dcdcaa; font-weight: bold; }
+        .java .class-name { color: #4ec9b0; font-weight: bold; }
+        .java .method { color: #dcdcaa; }
+        .java .package { color: #9cdcfe; }
+
+        .code-header {
+            background: #2d2d30;
+            color: #cccccc;
+            padding: 0.7rem 1rem;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #3e3e42;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+            font-weight: 500;
+        }
+
+        .code-container {
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .code-container .code-block {
+            margin: 0;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .inline-code {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .endpoints-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .endpoints-table th {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .endpoints-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            color: #e5e7eb;
+        }
+
+        .endpoints-table tr:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(30, 20, 60, 0.6);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card h4 {
+            color: #e5e7eb;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: #d1d5db;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7, #c084fc);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .project-structure {
+            background: rgba(20, 20, 40, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            white-space: pre-line;
+            color: #e5e7eb;
+            backdrop-filter: blur(10px);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #000000, #1a0033, #2d1b69);
+            color: #e5e7eb;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .endpoints-table {
+                font-size: 0.8rem;
+            }
+            
+            .endpoints-table th,
+            .endpoints-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Hello World Spring Boot Application</h1>
+            <p class="subtitle">A simple "Hello World" web application built with Spring Boot and Java 8</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#prerequisites">Prerequisites</a></li>
+                <li><a href="#structure">Project Structure</a></li>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#endpoints">API Endpoints</a></li>
+                <li><a href="#configuration">Configuration</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="content">
+                <section id="overview">
+                    <h2>Overview</h2>
+                    <p>This is a basic Spring Boot REST API application that demonstrates fundamental concepts including:</p>
+                    <ul>
+                        <li><strong>Spring Boot application setup</strong></li>
+                        <li><strong>REST controller endpoints</strong></li>
+                        <li><strong>Path variables and query parameters</strong></li>
+                        <li><strong>Maven dependency management</strong></li>
+                    </ul>
+                </section>
+
+                <section id="prerequisites">
+                    <h2>Prerequisites</h2>
+                    <p>Before running this application, ensure you have the following installed:</p>
+                    <ul>
+                        <li><strong>Java 8</strong> (JDK 1.8 or higher)</li>
+                        <li><strong>Maven 3.6+</strong></li>
+                        <li><strong>Git</strong> (optional, for cloning)</li>
+                    </ul>
+                </section>
+
+                <section id="structure">
+                    <h2>Project Structure</h2>
+                    <div class="project-structure">hello-world/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/helloworld/
+│   │   │       ├── HelloWorldApplication.java
+│   │   │       └── controller/
+│   │   │           └── HelloWorldController.java
+│   │   └── resources/
+│   └── test/
+├── pom.xml
+└── README.md</div>
+
+                    <h3>Main Application Class</h3>
+                    <div class="code-container">
+                        <div class="code-header">📁 src/main/java/com/example/helloworld/HelloWorldApplication.java</div>
+                        <pre class="code-block java"><span class="keyword">package</span> <span class="package">com.example.helloworld</span>;
+
+<span class="keyword">import</span> <span class="package">org.springframework.boot.SpringApplication</span>;
+<span class="keyword">import</span> <span class="package">org.springframework.boot.autoconfigure.SpringBootApplication</span>;
+
+<span class="annotation">@SpringBootApplication</span>
+<span class="keyword">public class</span> <span class="class-name">HelloWorldApplication</span> {
+
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class-name">String</span>[] args) {
+        <span class="class-name">SpringApplication</span>.<span class="method">run</span>(<span class="class-name">HelloWorldApplication</span>.<span class="keyword">class</span>, args);
+    }
+}</pre>
+                    </div>
+
+                    <h3>Controller Class</h3>
+                    <div class="code-container">
+                        <div class="code-header">📁 src/main/java/com/example/helloworld/controller/HelloWorldController.java</div>
+                        <pre class="code-block java"><span class="keyword">package</span> <span class="package">com.example.helloworld.controller</span>;
+
+<span class="keyword">import</span> <span class="package">org.springframework.web.bind.annotation.GetMapping</span>;
+<span class="keyword">import</span> <span class="package">org.springframework.web.bind.annotation.PathVariable</span>;
+<span class="keyword">import</span> <span class="package">org.springframework.web.bind.annotation.RequestParam</span>;
+<span class="keyword">import</span> <span class="package">org.springframework.web.bind.annotation.RestController</span>;
+
+<span class="annotation">@RestController</span>
+<span class="keyword">public class</span> <span class="class-name">HelloWorldController</span> {
+
+    <span class="annotation">@GetMapping</span>(<span class="string">"/"</span>)
+    <span class="keyword">public</span> <span class="class-name">String</span> <span class="method">home</span>() {
+        <span class="keyword">return</span> <span class="string">"Hello World! Welcome to Spring Boot!"</span>;
+    }
+
+    <span class="annotation">@GetMapping</span>(<span class="string">"/hello"</span>)
+    <span class="keyword">public</span> <span class="class-name">String</span> <span class="method">hello</span>() {
+        <span class="keyword">return</span> <span class="string">"Hello World from Spring Boot!"</span>;
+    }
+
+    <span class="annotation">@GetMapping</span>(<span class="string">"/hello/{name}"</span>)
+    <span class="keyword">public</span> <span class="class-name">String</span> <span class="method">helloWithName</span>(<span class="annotation">@PathVariable</span> <span class="class-name">String</span> name) {
+        <span class="keyword">return</span> <span class="string">"Hello, "</span> + name + <span class="string">"! Welcome to Spring Boot!"</span>;
+    }
+
+    <span class="annotation">@GetMapping</span>(<span class="string">"/greet"</span>)
+    <span class="keyword">public</span> <span class="class-name">String</span> <span class="method">greet</span>(<span class="annotation">@RequestParam</span>(value = <span class="string">"name"</span>, defaultValue = <span class="string">"World"</span>) <span class="class-name">String</span> name) {
+        <span class="keyword">return</span> <span class="string">"Hello, "</span> + name + <span class="string">"!"</span>;
+    }
+}</pre>
+                    </div>
+                </section>
+
+                <section id="getting-started">
+                    <h2>Getting Started</h2>
+                    
+                    <div class="highlight-box">
+                        <h3>Quick Start</h3>
+                        <p>Get up and running in minutes with these simple steps:</p>
+                    </div>
+
+                    <h3>1. Build the Application</h3>
+                    <p>Navigate to the project directory and run:</p>
+                    <div class="code-block">mvn clean compile</div>
+
+                    <h3>2. Run the Application</h3>
+                    <p>You can run the application using Maven:</p>
+                    <div class="code-block">mvn spring-boot:run</div>
+
+                    <p>Alternatively, you can build a JAR file and run it:</p>
+                    <div class="code-block">mvn clean package
+java -jar target/hello-world-1.0.0.jar</div>
+
+                    <h3>3. Access the Application</h3>
+                    <p>Once the application starts, you'll see output similar to:</p>
+                    <div class="code-block">Started HelloWorldApplication in X.XXX seconds</div>
+                    <p>The application will be available at: <span class="inline-code">http://localhost:8080</span></p>
+                </section>
+
+                <section id="endpoints">
+                    <h2>API Endpoints</h2>
+                    <p>The application provides the following REST endpoints:</p>
+
+                    <table class="endpoints-table">
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Endpoint</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GET</td>
+                                <td>/</td>
+                                <td>Basic welcome message</td>
+                                <td><span class="inline-code">curl http://localhost:8080/</span></td>
+                            </tr>
+                            <tr>
+                                <td>GET</td>
+                                <td>/hello</td>
+                                <td>Simple hello endpoint</td>
+                                <td><span class="inline-code">curl http://localhost:8080/hello</span></td>
+                            </tr>
+                            <tr>
+                                <td>GET</td>
+                                <td>/hello/{name}</td>
+                                <td>Personalized greeting with path variable</td>
+                                <td><span class="inline-code">curl http://localhost:8080/hello/John</span></td>
+                            </tr>
+                            <tr>
+                                <td>GET</td>
+                                <td>/greet</td>
+                                <td>Greeting with optional query parameter</td>
+                                <td><span class="inline-code">curl http://localhost:8080/greet?name=Alice</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Example Responses</h3>
+                    <div class="code-block"># GET /
+Hello World! Welcome to Spring Boot!
+
+# GET /hello
+Hello World from Spring Boot!
+
+# GET /hello/John
+Hello, John! Welcome to Spring Boot!
+
+# GET /greet?name=Alice
+Hello, Alice!
+
+# GET /greet (without parameter)
+Hello, World!</div>
+
+                    <h3>Testing the Application</h3>
+                    <p>You can test the endpoints using curl:</p>
+                    <div class="code-block"># Test basic endpoint
+curl http://localhost:8080/
+
+# Test with path variable
+curl http://localhost:8080/hello/YourName
+
+# Test with query parameter
+curl http://localhost:8080/greet?name=YourName</div>
+
+                    <p>Or simply open your browser and navigate to:</p>
+                    <ul>
+                        <li><a href="http://localhost:8080/" target="_blank">http://localhost:8080/</a></li>
+                        <li><a href="http://localhost:8080/hello" target="_blank">http://localhost:8080/hello</a></li>
+                        <li><a href="http://localhost:8080/hello/YourName" target="_blank">http://localhost:8080/hello/YourName</a></li>
+                        <li><a href="http://localhost:8080/greet?name=YourName" target="_blank">http://localhost:8080/greet?name=YourName</a></li>
+                    </ul>
+                </section>
+
+                <section id="configuration">
+                    <h2>Configuration</h2>
+                    
+                    <h3>Default Configuration</h3>
+                    <p>The application runs with Spring Boot's default configuration:</p>
+                    <ul>
+                        <li><strong>Port</strong>: 8080</li>
+                        <li><strong>Context Path</strong>: /</li>
+                        <li><strong>Logging Level</strong>: INFO</li>
+                    </ul>
+
+                    <h3>Custom Configuration</h3>
+                    <p>To modify the default settings, create an <span class="inline-code">application.properties</span> file in <span class="inline-code">src/main/resources/</span>:</p>
+                    <div class="code-block"># Change server port
+server.port=9090
+
+# Change context path
+server.servlet.context-path=/api
+
+# Set logging level
+logging.level.com.example.helloworld=DEBUG</div>
+
+                    <h3>Dependencies</h3>
+                    <p>This project uses the following key dependencies:</p>
+                    <ul>
+                        <li><strong>Spring Boot Starter Web</strong> (2.7.18) - For web application and REST API functionality</li>
+                        <li><strong>Spring Boot Starter Test</strong> - For testing capabilities</li>
+                        <li><strong>Java 8</strong> compatibility</li>
+                    </ul>
+                </section>
+
+                <section id="troubleshooting">
+                    <h2>Troubleshooting</h2>
+
+                    <h3>Common Issues</h3>
+                    
+                    <h4>Port already in use</h4>
+                    <p>If port 8080 is occupied, either:</p>
+                    <ul>
+                        <li>Stop the process using port 8080</li>
+                        <li>Change the port in <span class="inline-code">application.properties</span>: <span class="inline-code">server.port=8081</span></li>
+                    </ul>
+
+                    <h4>Java version</h4>
+                    <p>Ensure you're using Java 8 or higher:</p>
+                    <div class="code-block">java -version</div>
+
+                    <h4>Maven issues</h4>
+                    <p>Verify Maven installation:</p>
+                    <div class="code-block">mvn --version</div>
+
+                    <h3>Building for Production</h3>
+                    <p>To create a production-ready JAR file:</p>
+                    <div class="code-block">mvn clean package -DskipTests</div>
+                    <p>The JAR file will be created in the <span class="inline-code">target/</span> directory and can be deployed to any environment with Java 8+.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Hello World Spring Boot Application. This project is open source and available under the MIT License.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active class to navigation links based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
